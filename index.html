@@ -1,1035 +1,310 @@
-
-
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#11110f">
-    <title>NOIR COFFEE |</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>NOIR COFFEE | Dijital Menü</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QRCode.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         noir: {
-                            bg: '#0d0d0c',
-                            card: '#161614',
-                            border: '#282824',
-                            gold: '#d4af37',
-                            goldHover: '#f3ca40',
-                            goldDark: '#9a7b20',
-                            text: '#e6e4dd',
-                            muted: '#8e8c85'
+                            bg: '#0F0F0D',
+                            card: '#181816',
+                            border: '#2A2A26',
+                            gold: '#D4AF37',
+                            'gold-hover': '#B89628',
+                            muted: '#8E8E8A',
+                            light: '#F4F4F2'
                         }
                     },
                     fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
                     }
                 }
             }
         }
     </script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     <style>
-        /* Custom Styles & Scrollbar Refinements */
-        body {
-            background-color: #0d0d0c;
-            color: #e6e4dd;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d0d0c;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #282824;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d4af37;
-        }
-
-        /* Hide scrollbar for category horizontal scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Gold Gradient Text */
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #f3ca40 0%, #d4af37 50%, #9a7b20 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Glassmorphism */
-        .glass-header {
-            background: rgba(13, 13, 12, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .glass-card {
-            background: rgba(22, 22, 20, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(212, 175, 55, 0.12);
-        }
-
-        .glass-modal {
-            background: rgba(18, 18, 16, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        /* Ambient Glow Effect */
-        .ambient-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, rgba(0,0,0,0) 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Smooth Animations */
-        .product-card {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .product-card:active {
-            transform: scale(0.98);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Modal Overlay Transition */
-        .modal-overlay {
-            transition: opacity 0.3s ease;
-        }
-        .modal-container {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-        }
+        body { background-color: #0F0F0D; color: #F4F4F2; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen pb-24 relative overflow-x-hidden selection:bg-noir-gold selection:text-black">
+<body class="pb-24 antialiased">
 
-    <!-- Ambient Ambient Glow Backgrounds -->
-    <div class="ambient-glow -top-10 -left-10"></div>
-    <div class="ambient-glow top-1/3 -right-20"></div>
-    <div class="ambient-glow bottom-1/4 -left-20"></div>
-
-    <!-- Sticky Navigation Header -->
-    <header class="sticky top-0 z-40 glass-header border-b border-noir-border/60 transition-all duration-300">
-        <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="#" class="flex flex-col">
-                <span class="font-serif text-2xl font-bold tracking-widest leading-none text-white">
-                    NOIR<span class="text-noir-gold">.</span>
-                </span>
-                <span class="text-[9px] tracking-[0.3em] text-noir-muted uppercase mt-0.5">Coffee House</span>
-            </a>
-
-            <!-- Masa Bilgisi ve Garson / Hesap Butonları -->
-            <div class="flex items-center gap-2">
-                <button onclick="openTableModal()" id="table-btn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-noir-card border border-noir-border text-xs text-noir-text hover:border-noir-gold/50 transition-colors">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-noir-gold"></i>
-                    <span id="current-table-text" class="font-medium">Masa Seç</span>
-                </button>
-
-                <button onclick="openCallWaiterModal()" class="p-2 rounded-full bg-noir-card border border-noir-border text-noir-gold hover:bg-noir-gold hover:text-black transition-all relative" title="Garson Çağır">
-                    <i data-lucide="bell" class="w-4 h-4"></i>
-                </button>
-            </div>
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-[#0F0F0D]/90 backdrop-blur-md border-b border-noir-border px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <a href="#" class="font-serif text-2xl font-bold tracking-wider text-white">NOIR<span class="text-noir-gold">.</span></a>
+            <span id="tableBadge" class="text-[10px] tracking-widest text-noir-gold border border-noir-gold/40 px-2.5 py-0.5 rounded-full uppercase font-semibold">Masa 01</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="openQRModal()" class="flex items-center gap-1.5 bg-noir-card border border-noir-gold/40 text-noir-gold px-3 py-1.5 rounded-full text-xs font-medium hover:bg-noir-gold hover:text-black transition-all">
+                <i data-lucide="qr-code" class="w-4 h-4"></i>
+                <span>Masa QR</span>
+            </button>
+            <button onclick="callWaiter()" class="bg-noir-card border border-noir-border text-noir-light p-2 rounded-full hover:border-noir-gold transition" title="Garson Çağır">
+                <i data-lucide="bell" class="w-4 h-4 text-noir-gold"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-md mx-auto px-4 pt-4 relative z-10">
-
-        <!-- Hero Banner Section -->
-        <section class="hero mb-6 relative rounded-2xl overflow-hidden border border-noir-border/80 group">
-            <div class="absolute inset-0 bg-gradient-to-t from-noir-bg via-noir-bg/60 to-transparent z-10"></div>
-            <img 
-                src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=85" 
-                alt="NOIR Coffee Atmosphere" 
-                class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-80"
-            >
-            <div class="absolute inset-0 z-20 p-5 flex flex-col justify-end">
-                <span class="text-[10px] font-semibold tracking-[0.25em] text-noir-gold uppercase mb-1">KAHVE BİR RİTÜELDİR</span>
-                <h1 class="font-serif text-2xl md:text-3xl font-bold text-white leading-tight mb-1">
-                    Her yudumda <span class="gold-gradient-text italic">bir hikâye.</span>
-                </h1>
-                <p class="text-xs text-noir-muted line-clamp-2 max-w-[85%] font-light">
-                    Özenle seçilmiş nitelikli çekirdekler, Usta baristaların elinden özel sunumlar.
-                </p>
+    <!-- Main Content -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+        <section class="relative rounded-2xl overflow-hidden mb-6 border border-noir-border bg-noir-card">
+            <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=80" alt="Hero Kahve" class="w-full h-44 object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-noir-card via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-4 right-4">
+                <span class="text-[10px] tracking-widest text-noir-gold uppercase font-semibold">KAHVE BİR RİTÜELDİR</span>
+                <h1 class="text-xl font-serif font-bold text-white mt-0.5">Her yudumda <span class="italic text-noir-gold">bir hikâye.</span></h1>
             </div>
         </section>
 
-        <!-- Search Bar Component -->
-        <div class="relative mb-5">
-            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-noir-muted"></i>
-            <input 
-                type="text" 
-                id="search-input"
-                placeholder="Kahve, tatlı veya içerik ara..." 
-                class="w-full bg-noir-card border border-noir-border rounded-xl pl-10 pr-10 py-2.5 text-xs text-white placeholder-noir-muted focus:outline-none focus:border-noir-gold transition-all"
-                oninput="handleSearch(this.value)"
-            >
-            <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-noir-muted hover:text-white">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
+        <div class="relative mb-4">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-noir-muted"></i>
+            <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Ürün veya içerik ara..." class="w-full bg-noir-card border border-noir-border rounded-xl pl-9 pr-4 py-2.5 text-sm text-noir-light placeholder-noir-muted focus:outline-none focus:border-noir-gold">
         </div>
 
-        <!-- Horizontal Categories Bar -->
-        <section class="mb-6 sticky top-16 z-30 bg-noir-bg/95 py-2 backdrop-blur-md -mx-4 px-4 border-b border-noir-border/40">
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="categories-container">
-                <!-- Dynamically Rendered Categories -->
-            </div>
-        </section>
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar mb-6 pb-1">
+            <button onclick="setCategory('all')" class="category-btn active bg-noir-gold text-black font-semibold text-xs px-4 py-2 rounded-full whitespace-nowrap transition">Tümü</button>
+            <button onclick="setCategory('hot')" class="category-btn bg-noir-card border border-noir-border text-noir-muted text-xs px-4 py-2 rounded-full whitespace-nowrap transition hover:text-white">Sıcak Kahveler</button>
+            <button onclick="setCategory('cold')" class="category-btn bg-noir-card border border-noir-border text-noir-muted text-xs px-4 py-2 rounded-full whitespace-nowrap transition hover:text-white">Soğuk Kahveler</button>
+            <button onclick="setCategory('dessert')" class="category-btn bg-noir-card border border-noir-border text-noir-muted text-xs px-4 py-2 rounded-full whitespace-nowrap transition hover:text-white">Tatlılar</button>
+            <button onclick="setCategory('bakery')" class="category-btn bg-noir-card border border-noir-border text-noir-muted text-xs px-4 py-2 rounded-full whitespace-nowrap transition hover:text-white">Atıştırmalıklar</button>
+        </div>
 
-        <!-- Menu Items Section -->
-        <section class="menu-section">
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <span class="text-[10px] font-semibold tracking-widest text-noir-gold uppercase">SEÇKİN TATMALAR</span>
-                    <h2 class="font-serif text-xl font-bold text-white" id="section-title">Tüm Ürünler</h2>
-                </div>
-                <span id="product-count" class="text-xs text-noir-muted bg-noir-card px-2.5 py-1 rounded-full border border-noir-border">0 çeşit</span>
-            </div>
-
-            <!-- Product Grid -->
-            <div class="grid grid-cols-1 gap-4" id="products-grid">
-                <!-- Dynamically Populated Product Cards -->
-            </div>
-
-            <!-- Empty Search State -->
-            <div id="no-results" class="hidden text-center py-12 px-4">
-                <div class="w-12 h-12 rounded-full bg-noir-card border border-noir-border flex items-center justify-center mx-auto mb-3 text-noir-muted">
-                    <i data-lucide="search-x" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-white mb-1">Aramanızla eşleşen ürün bulunamadı</h3>
-                <p class="text-xs text-noir-muted">Farklı bir arama terimi deneyebilir veya kategorileri inceleyebilirsiniz.</p>
-            </div>
-        </section>
-
+        <div id="productList" class="space-y-3"></div>
     </main>
 
-    <!-- Floating Sticky Order Bottom Bar -->
-    <div id="cart-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-md z-30 hidden">
-        <div class="glass-card bg-noir-card/95 border border-noir-gold/40 rounded-2xl p-3 shadow-2xl flex items-center justify-between backdrop-blur-xl">
-            <div class="flex items-center gap-3">
-                <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-noir-gold/10 text-noir-gold border border-noir-gold/30">
-                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-noir-gold text-black font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-noir-bg">0</span>
-                </div>
-                <div>
-                    <span class="text-[10px] text-noir-muted uppercase tracking-wider block">Sipariş Taslağı</span>
-                    <span id="cart-total-price" class="text-sm font-bold text-white">₺0</span>
-                </div>
-            </div>
-
-            <button onclick="openCartModal()" class="bg-gradient-to-r from-noir-gold to-noir-goldDark text-black text-xs font-bold px-4 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg shadow-noir-gold/20">
-                <span>Incele & Sipariş Et</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="max-w-md mx-auto px-4 mt-12 mb-6 text-center border-t border-noir-border/40 pt-8">
-        <a href="#" class="inline-block font-serif text-2xl font-bold tracking-widest text-white mb-1">
-            NOIR<span class="text-noir-gold">.</span>
-        </a>
-        <p class="text-xs text-noir-muted mb-4 font-light">Her fincanda ayrı bir tutku, unutulmaz anlar.</p>
-        
-        <div class="flex justify-center items-center gap-4 mb-4 text-noir-muted">
-            <a href="#" class="p-2 bg-noir-card border border-noir-border rounded-full hover:text-noir-gold transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-            <a href="#" class="p-2 bg-noir-card border border-noir-border rounded-full hover:text-noir-gold transition-colors"><i data-lucide="map-pin" class="w-4 h-4"></i></a>
-            <a href="#" class="p-2 bg-noir-card border border-noir-border rounded-full hover:text-noir-gold transition-colors"><i data-lucide="phone" class="w-4 h-4"></i></a>
-        </div>
-
-        <p class="text-[10px] text-noir-muted/60">© 2026 NOIR COFFEE HOUSE. Tüm hakları saklıdır.</p>
-    </footer>
-
-    <!-- PRODUCT DETAIL MODAL -->
-    <div id="product-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeProductModal()"></div>
-        <div class="modal-container relative w-full max-w-md glass-modal rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto z-10 border border-noir-gold/20 shadow-2xl translate-y-full opacity-0">
-            
-            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <div class="relative h-60 w-full overflow-hidden">
-                <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-noir-card via-transparent to-transparent"></div>
-            </div>
-
-            <div class="p-5 pt-2">
-                <div class="flex items-center gap-2 mb-2" id="modal-badges"></div>
-                
-                <div class="flex items-start justify-between gap-2 mb-2">
-                    <h3 id="modal-title" class="font-serif text-2xl font-bold text-white"></h3>
-                    <span id="modal-price" class="text-lg font-bold text-noir-gold font-sans whitespace-nowrap"></span>
-                </div>
-
-                <p id="modal-desc" class="text-xs text-noir-muted mb-5 leading-relaxed font-light"></p>
-
-                <!-- Customization Options -->
-                <div id="modal-options" class="space-y-4 mb-6 border-t border-noir-border pt-4">
-                    <!-- Milk Selection -->
-                    <div>
-                        <label class="text-xs font-semibold text-white block mb-2">Süt Tercihi</label>
-                        <div class="grid grid-cols-3 gap-2" id="milk-options">
-                            <button type="button" class="option-btn px-2.5 py-2 rounded-xl border border-noir-gold bg-noir-gold/10 text-noir-gold text-xs font-medium text-center transition-all" data-value="tam-yagli">Tam Yağlı</button>
-                            <button type="button" class="option-btn px-2.5 py-2 rounded-xl border border-noir-border bg-noir-card text-noir-muted text-xs font-medium text-center transition-all" data-value="yagssiz">Yağsız</button>
-                            <button type="button" class="option-btn px-2.5 py-2 rounded-xl border border-noir-border bg-noir-card text-noir-muted text-xs font-medium text-center transition-all" data-value="yulaf">Yulaf (+₺25)</button>
-                        </div>
-                    </div>
-
-                    <!-- Size Selection -->
-                    <div>
-                        <label class="text-xs font-semibold text-white block mb-2">Boyut Seçimi</label>
-                        <div class="grid grid-cols-3 gap-2" id="size-options">
-                            <button type="button" class="size-btn px-2 py-2 rounded-xl border border-noir-border bg-noir-card text-noir-muted text-xs font-medium text-center transition-all" data-price-add="0">Standart</button>
-                            <button type="button" class="size-btn px-2 py-2 rounded-xl border border-noir-gold bg-noir-gold/10 text-noir-gold text-xs font-medium text-center transition-all" data-price-add="15">Grande (+₺15)</button>
-                            <button type="button" class="size-btn px-2 py-2 rounded-xl border border-noir-border bg-noir-card text-noir-muted text-xs font-medium text-center transition-all" data-price-add="30">Venti (+₺30)</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quantity & Add to Cart -->
-                <div class="flex items-center gap-3 pt-2">
-                    <div class="flex items-center border border-noir-border rounded-xl bg-noir-card p-1">
-                        <button onclick="adjustModalQty(-1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-noir-muted hover:text-white hover:bg-noir-border transition-colors">
-                            <i data-lucide="minus" class="w-4 h-4"></i>
-                        </button>
-                        <span id="modal-qty" class="w-8 text-center text-xs font-bold text-white">1</span>
-                        <button onclick="adjustModalQty(1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-noir-muted hover:text-white hover:bg-noir-border transition-colors">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-
-                    <button onclick="addModalItemToCart()" class="flex-1 bg-gradient-to-r from-noir-gold to-noir-goldDark text-black font-bold text-xs py-3 px-4 rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                        <span>Siparişe Ekle</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CALL WAITER MODAL -->
-    <div id="waiter-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeCallWaiterModal()"></div>
-        <div class="modal-container relative w-full max-w-md glass-modal rounded-t-3xl sm:rounded-3xl p-6 z-10 border border-noir-gold/30 shadow-2xl translate-y-full opacity-0">
-            <button onclick="closeCallWaiterModal()" class="absolute top-4 right-4 text-noir-muted hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 rounded-full bg-noir-gold/10 text-noir-gold border border-noir-gold/30 flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="bell-ring" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-serif text-xl font-bold text-white mb-1">Masaya Hizmet İste</h3>
-                <p class="text-xs text-noir-muted">Masanıza garson çağırmak veya hesap istemek için seçim yapın.</p>
-            </div>
-
-            <div class="space-y-3 mb-6">
-                <button onclick="sendNotification('Garson Talebi', 'Garsonunuz masanıza yönlendiriliyor.')" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-noir-card border border-noir-border hover:border-noir-gold/50 transition-all group">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="user-check" class="w-5 h-5 text-noir-gold"></i>
-                        <span class="text-xs font-semibold text-white">Garson Çağır</span>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-noir-muted group-hover:translate-x-1 transition-transform"></i>
-                </button>
-
-                <button onclick="sendNotification('Hesap Talebi', 'Hesap fişiniz masanıza getiriliyor.')" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-noir-card border border-noir-border hover:border-noir-gold/50 transition-all group">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="receipt" class="w-5 h-5 text-noir-gold"></i>
-                        <span class="text-xs font-semibold text-white">Hesap İstiyorum</span>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-noir-muted group-hover:translate-x-1 transition-transform"></i>
-                </button>
-
-                <button onclick="sendNotification('Masayı Temizleme', 'Ekibimiz masanızı temizlemek için geliyor.')" class="w-full flex items-center justify-between p-3.5 rounded-xl bg-noir-card border border-noir-border hover:border-noir-gold/50 transition-all group">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="sparkles" class="w-5 h-5 text-noir-gold"></i>
-                        <span class="text-xs font-semibold text-white">Masa Temizliği</span>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-noir-muted group-hover:translate-x-1 transition-transform"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TABLE SELECTION MODAL -->
-    <div id="table-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeTableModal()"></div>
-        <div class="modal-container relative w-full max-w-md glass-modal rounded-t-3xl sm:rounded-3xl p-6 z-10 border border-noir-gold/30 shadow-2xl translate-y-full opacity-0">
-            <button onclick="closeTableModal()" class="absolute top-4 right-4 text-noir-muted hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <div class="text-center mb-5">
-                <h3 class="font-serif text-xl font-bold text-white mb-1">Masa Numaranız</h3>
-                <p class="text-xs text-noir-muted">Sipariş ve taleplerinizin doğru masaya ulaşması için seçiniz.</p>
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 mb-6" id="tables-grid">
-                <!-- Dynamically Generated Tables 1-12 -->
-            </div>
-
-            <button onclick="closeTableModal()" class="w-full bg-noir-card border border-noir-border text-white text-xs font-bold py-2.5 rounded-xl hover:border-noir-gold transition-colors">
-                Tamam
-            </button>
-        </div>
-    </div>
-
-    <!-- CART SUMMARY MODAL -->
-    <div id="cart-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeCartModal()"></div>
-        <div class="modal-container relative w-full max-w-md glass-modal rounded-t-3xl sm:rounded-3xl p-6 z-10 border border-noir-gold/30 shadow-2xl translate-y-full opacity-0 max-h-[85vh] flex flex-col">
-            <button onclick="closeCartModal()" class="absolute top-4 right-4 text-noir-muted hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <div class="mb-4 pb-3 border-b border-noir-border">
-                <span class="text-[10px] text-noir-gold uppercase tracking-widest font-semibold block">SİPARİŞ ÖZETİ</span>
-                <h3 class="font-serif text-xl font-bold text-white" id="cart-table-title">Masa 1 Siparişleri</h3>
-            </div>
-
-            <div id="cart-items-list" class="flex-1 overflow-y-auto space-y-3 pr-1 my-2">
-                <!-- Cart items inserted here -->
-            </div>
-
-            <div class="border-t border-noir-border pt-4 mt-2 space-y-3">
-                <div class="flex items-center justify-between text-xs">
-                    <span class="text-noir-muted">Ara Toplam</span>
-                    <span id="cart-subtotal" class="text-white font-medium">₺0</span>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <span class="text-noir-muted">Servis Bedeli (%0)</span>
-                    <span class="text-white font-medium">₺0</span>
-                </div>
-                <div class="flex items-center justify-between text-sm font-bold border-t border-noir-border/60 pt-2">
-                    <span class="text-white">Genel Toplam</span>
-                    <span id="cart-grand-total" class="text-noir-gold text-lg">₺0</span>
-                </div>
-
-                <button onclick="submitOrder()" class="w-full bg-gradient-to-r from-noir-gold to-noir-goldDark text-black font-bold text-xs py-3 rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg shadow-noir-gold/20">
-                    <i data-lucide="check-circle" class="w-4 h-4"></i>
-                    <span>Siparişi Garsona İlet</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOAST NOTIFICATION CONTAINER -->
-    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 transform -translate-y-10 opacity-0 pointer-events-none w-[90%] max-w-sm">
-        <div class="bg-noir-card/95 border border-noir-gold/60 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md">
-            <div id="toast-icon" class="text-noir-gold">
-                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+    <!-- Sepet Barı -->
+    <div id="cartBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-noir-gold text-black rounded-2xl p-3 shadow-xl flex items-center justify-between hidden z-30">
+        <div class="flex items-center gap-3 pl-2">
+            <div class="bg-black/10 p-2 rounded-xl">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-black"></i>
             </div>
             <div>
-                <h4 id="toast-title" class="text-xs font-bold text-white"></h4>
-                <p id="toast-msg" class="text-[11px] text-noir-muted"></p>
+                <p id="cartCountText" class="text-xs font-bold leading-none">0 Ürün Seçildi</p>
+                <p id="cartTotalText" class="text-sm font-extrabold mt-0.5">₺0</p>
             </div>
+        </div>
+        <button onclick="sendOrder()" class="bg-black text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-800 transition">Siparişi Tamamla</button>
+    </div>
+
+    <!-- QR Kod Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-noir-card border border-noir-border rounded-2xl max-w-sm w-full p-5 text-center relative">
+            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-noir-muted hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h3 class="font-serif text-lg font-bold text-white mb-1">Masa QR Kodu</h3>
+            <p class="text-xs text-noir-muted mb-4">Masalara özel QR kod oluşturun ve indirin.</p>
+            <div class="mb-4">
+                <label class="text-xs text-noir-muted block mb-1 text-left">Masa Numarası Seçin:</label>
+                <select id="tableSelect" onchange="generateQRCode()" class="w-full bg-noir-bg border border-noir-border text-white rounded-xl p-2.5 text-sm focus:outline-none focus:border-noir-gold">
+                    <option value="1">Masa 01</option>
+                    <option value="2">Masa 02</option>
+                    <option value="3">Masa 03</option>
+                    <option value="4">Masa 04</option>
+                    <option value="5">Masa 05</option>
+                </select>
+            </div>
+            <div class="bg-white p-4 rounded-xl inline-block mb-4 shadow-inner" id="qrcode"></div>
+            <button onclick="downloadQR()" class="w-full bg-noir-gold text-black font-semibold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2">
+                <i data-lucide="download" class="w-4 h-4"></i> QR Kodu İndir (PNG)
+            </button>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- DATA STATE ---
-        const categories = [
-            { id: 'all', name: 'Tümü', icon: 'sparkles' },
-            { id: 'hot', name: 'Sıcak Kahveler', icon: 'coffee' },
-            { id: 'cold', name: 'Soğuk Kahveler', icon: 'snowflake' },
-            { id: 'dessert', name: 'Tatlılar', icon: 'cake' },
-            { id: 'bakery', name: 'Fırın & Croissant', icon: 'croissant' },
-            { id: 'new', name: 'Yeni & Özel', icon: 'flame' }
-        ];
+    <!-- Firebase SDK v9 / v10 Uyumlu Entegrasyon -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-Bn2ZUKXr0El0j1_PB6rds7aA01E_ftg",
+            authDomain: "qrkodlumenu.firebaseapp.com",
+            databaseURL: "https://qrkodlumenu-default-rtdb.firebaseio.com",
+            projectId: "qrkodlumenu",
+            storageBucket: "qrkodlumenu.appspot.com",
+            messagingSenderId: "33662917148",
+            appId: "1:33662917148:web:93f4786e9892665f121dd9",
+            measurementId: "G-JFQZGK75FT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // URL'den Masa Numarası Okuma (Örn: ?table=3)
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableNumber = urlParams.get('table') || '1';
+        document.getElementById('tableBadge').innerText = `Masa ${tableNumber.padStart(2, '0')}`;
 
         const products = [
-            {
-                id: 1,
-                name: 'Cappuccino',
-                category: 'hot',
-                price: 120,
-                desc: 'Yoğun espresso, buharla ısıtılmış kadifemsi süt ve yoğun süt köpüğü.',
-                image: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=700&q=80',
-                badges: ['Popüler'],
-                isNew: false
-            },
-            {
-                id: 2,
-                name: 'Iced Latte',
-                category: 'cold',
-                price: 140,
-                desc: 'Çift shot espresso, taze soğuk süt ve kristal buz küpleri.',
-                image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80',
-                badges: ['Soğuk'],
-                isNew: false
-            },
-            {
-                id: 3,
-                name: 'Espresso Single / Double',
-                category: 'hot',
-                price: 90,
-                desc: '%100 Arabica çekirdeklerinden taze çekilmiş, karamel kremalı yoğun içim.',
-                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80',
-                badges: ['Yoğun'],
-                isNew: false
-            },
-            {
-                id: 4,
-                name: 'San Sebastian Cheesecake',
-                category: 'dessert',
-                price: 180,
-                desc: 'Akışkan iç dokusu ve karamelize edilmiş üst katmanıyla meşhur İspanyol lezzeti.',
-                image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=80',
-                badges: ['Şefin Seçimi'],
-                isNew: false
-            },
-            {
-                id: 5,
-                name: 'Orman Meyveli Cheesecake',
-                category: 'dessert',
-                price: 170,
-                desc: 'Kremamsı özgün doku ve üzerinde taze frambuaz & böğürtlen sosu.',
-                image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=700&q=80',
-                badges: [],
-                isNew: false
-            },
-            {
-                id: 6,
-                name: 'Belçika Çikolatalı Brownie',
-                category: 'dessert',
-                price: 140,
-                desc: 'Sıcak servis edilen, dışı çıtır içi yoğun Belçika çikolatası dolgulu.',
-                image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=700&q=80',
-                badges: ['Sıcak Servis'],
-                isNew: false
-            },
-            {
-                id: 7,
-                name: 'Caffè Latte',
-                category: 'hot',
-                price: 130,
-                desc: 'Yumuşak içimli espresso ve bol buğulu süt köpüğü dengesi.',
-                image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80',
-                badges: [],
-                isNew: false
-            },
-            {
-                id: 8,
-                name: 'Caramel Macchiato',
-                category: 'hot',
-                price: 150,
-                desc: 'Vanilya şurubu, sıcak süt, espresso ve üzerine ev yapımı karamel sosu.',
-                image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=700&q=80',
-                badges: ['Tatlı İçim'],
-                isNew: false
-            },
-            {
-                id: 9,
-                name: 'Iced Spanish Latte',
-                category: 'cold',
-                price: 160,
-                desc: 'Espresso, soğuk süt ve tatlandırılmış yoğunlaştırılmış süt dokunuşu.',
-                image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80" alt="Iced Spanish Latte',
-                badges: ['Özel'],
-                isNew: true
-            },
-            {
-                id: 10,
-                name: 'NOIR Signature Cold Brew',
-                category: 'cold',
-                price: 165,
-                desc: '24 saat soğuk demleme yöntemiyle hazırlanan düşük asiditeli özel kahve.',
-                image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80',
-                badges: ['24 Saat Demleme'],
-                isNew: true
-            },
-            {
-                id: 11,
-                name: 'Taze Fransız Kruvasan',
-                category: 'bakery',
-                price: 110,
-                desc: 'Günlük kat kat tereyağlı orijinal Fransız usulü çıtır kruvasan.',
-                image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80',
-                badges: ['Günlük Taze'],
-                isNew: false
-            },
-            {
-                id: 12,
-                name: 'Matcha Green Tea Latte',
-                category: 'hot',
-                price: 155,
-                desc: 'Japonya Uji bölgesinden özel seremoniyel Matcha yeşil çayı ve buğulanmış süt.',
-                image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=700&q=80',
-                badges: ['Detoks'],
-                isNew: true
-            }
+            { id: 1, name: "Cappuccino", category: "hot", price: 120, desc: "Espresso, sıcak süt ve yoğun süt köpüğü.", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Iced Spanish Latte", category: "cold", price: 160, desc: "Espresso, soğuk süt ve yoğunlaştırılmış tatlı süt.", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Espresso Single", category: "hot", price: 90, desc: "Yoğun aromalı, sert karakterli tek shot espresso.", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "San Sebastian Cheesecake", category: "dessert", price: 180, desc: "Karamelize üst doku, akışkan nefis iç kıvam.", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Belçika Çikolatalı Brownie", category: "dessert", price: 140, desc: "Sıcak servis edilen yoğun çikolatalı ıslak brownie.", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Iced Americano", category: "cold", price: 110, desc: "Buzlu soğuk su üzerinde çift shot espresso.", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Fransız Tereyağlı Kruvasan", category: "bakery", price: 95, desc: "Taze pişmiş, kat kat çıtır orijinal tereyağlı kruvasan.", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" }
         ];
 
-        // --- GLOBAL APP STATE ---
         let currentCategory = 'all';
-        let searchQuery = '';
-        let selectedTable = 4; // Default Masa 4
-        let cart = [];
-        let activeModalProduct = null;
-        let activeModalQty = 1;
+        let cart = {};
 
-        // --- INIT APP ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCategories();
-            renderProducts();
-            renderTableGrid();
-            updateTableUI();
-            lucide.createIcons();
-        });
-
-        // --- RENDER CATEGORIES ---
-        function renderCategories() {
-            const container = document.getElementById('categories-container');
-            container.innerHTML = categories.map(cat => {
-                const isActive = cat.id === currentCategory;
-                return `
-                    <button 
-                        onclick="setCategory('${cat.id}')"
-                        class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 border ${
-                            isActive 
-                            ? 'bg-noir-gold text-black border-noir-gold font-bold shadow-lg shadow-noir-gold/20' 
-                            : 'bg-noir-card text-noir-muted border-noir-border hover:border-noir-gold/40 hover:text-white'
-                        }"
-                    >
-                        <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
-                        <span>${cat.name}</span>
-                    </button>
-                `;
-            }).join('');
-            lucide.createIcons();
-        }
-
-        function setCategory(catId) {
-            currentCategory = catId;
-            renderCategories();
-            renderProducts();
-            
-            const catObj = categories.find(c => c.id === catId);
-            document.getElementById('section-title').textContent = catObj ? catObj.name : 'Tüm Ürünler';
-        }
-
-        // --- RENDER PRODUCTS ---
         function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            const noResults = document.getElementById('no-results');
-
-            let filtered = products.filter(p => {
-                const matchesCategory = (currentCategory === 'all') 
-                    ? true 
-                    : (currentCategory === 'new' ? p.isNew : p.category === currentCategory);
-                
-                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                      p.desc.toLowerCase().includes(searchQuery.toLowerCase());
-
-                return matchesCategory && matchesSearch;
+            const list = document.getElementById('productList');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = products.filter(p => {
+                const matchCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchSearch = p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
+                return matchCat && matchSearch;
             });
 
-            document.getElementById('product-count').textContent = `${filtered.length} çeşit`;
-
             if (filtered.length === 0) {
-                grid.innerHTML = '';
-                noResults.classList.remove('hidden');
+                list.innerHTML = `<p class="text-center text-noir-muted text-xs py-8">Aradığınız kriterlere uygun ürün bulunamadı.</p>`;
                 return;
-            } else {
-                noResults.classList.add('hidden');
             }
 
-            grid.innerHTML = filtered.map(p => `
-                <article class="product-card glass-card rounded-2xl p-3 flex gap-3.5 relative overflow-hidden group cursor-pointer" onclick="openProductModal(${p.id})">
-                    <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-noir-card">
-                        <img 
-                            src="${p.image}" 
-                            alt="${p.name}" 
-                            loading="lazy"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            onerror="this.src='https://placehold.co/300x300/161614/d4af37?text=NOIR+COFFEE'"
-                        >
-                        ${p.isNew ? '<span class="absolute top-1 left-1 bg-noir-gold text-black text-[9px] font-bold px-1.5 py-0.5 rounded-md">YENİ</span>' : ''}
+            list.innerHTML = filtered.map(p => `
+                <div class="bg-noir-card border border-noir-border rounded-2xl p-3 flex gap-3 items-center">
+                    <img src="${p.img}" alt="${p.name}" class="w-20 h-20 rounded-xl object-cover flex-shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-sm text-white truncate">${p.name}</h4>
+                        <p class="text-[11px] text-noir-muted line-clamp-2 mt-0.5">${p.desc}</p>
+                        <p class="text-noir-gold font-bold text-sm mt-1">₺${p.price}</p>
                     </div>
-
-                    <div class="flex flex-col justify-between flex-1 py-0.5">
-                        <div>
-                            <div class="flex items-start justify-between gap-1 mb-1">
-                                <h3 class="font-serif font-bold text-base text-white group-hover:text-noir-gold transition-colors line-clamp-1">${p.name}</h3>
-                                <span class="text-sm font-bold text-noir-gold whitespace-nowrap">₺${p.price}</span>
-                            </div>
-                            <p class="text-[11px] text-noir-muted leading-relaxed line-clamp-2 font-light mb-2">${p.desc}</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-auto">
-                            <div class="flex items-center gap-1">
-                                ${p.badges.map(b => `<span class="text-[9px] bg-noir-border/60 text-noir-muted px-1.5 py-0.5 rounded border border-noir-border">${b}</span>`).join('')}
-                            </div>
-                            <button onclick="event.stopPropagation(); quickAddToCart(${p.id})" class="w-7 h-7 rounded-lg bg-noir-gold/10 border border-noir-gold/30 text-noir-gold flex items-center justify-center hover:bg-noir-gold hover:text-black transition-colors" title="Hızlı Ekle">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                </article>
+                    <button onclick="window.addToCart(${p.id})" class="bg-noir-bg border border-noir-border text-noir-gold p-2.5 rounded-xl hover:bg-noir-gold hover:text-black transition flex-shrink-0">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                    </button>
+                </div>
             `).join('');
-
             lucide.createIcons();
         }
 
-        // --- SEARCH HANDLER ---
-        function handleSearch(val) {
-            searchQuery = val.trim();
-            const clearBtn = document.getElementById('clear-search');
-            if (searchQuery.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
+        window.setCategory = function(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-noir-gold', 'text-black', 'font-semibold');
+                btn.classList.add('bg-noir-card', 'border', 'border-noir-border', 'text-noir-muted');
+            });
+            event.target.classList.remove('bg-noir-card', 'border', 'border-noir-border', 'text-noir-muted');
+            event.target.classList.add('bg-noir-gold', 'text-black', 'font-semibold');
             renderProducts();
         }
 
-        function clearSearch() {
-            document.getElementById('search-input').value = '';
-            handleSearch('');
+        window.filterProducts = function() { renderProducts(); }
+
+        window.addToCart = function(id) {
+            cart[id] = (cart[id] || 0) + 1;
+            updateCartBar();
         }
 
-        // --- PRODUCT MODAL & CUSTOMIZATION ---
-        function openProductModal(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
+        function updateCartBar() {
+            const totalCount = Object.values(cart).reduce((a, b) => a + b, 0);
+            const totalPrice = Object.entries(cart).reduce((total, [id, qty]) => {
+                const item = products.find(p => p.id === parseInt(id));
+                return total + (item ? item.price * qty : 0);
+            }, 0);
 
-            activeModalProduct = product;
-            activeModalQty = 1;
-
-            document.getElementById('modal-img').src = product.image;
-            document.getElementById('modal-title').textContent = product.name;
-            document.getElementById('modal-price').textContent = `₺${product.price}`;
-            document.getElementById('modal-desc').textContent = product.desc;
-            document.getElementById('modal-qty').textContent = '1';
-
-            // Render Badges
-            const badgesContainer = document.getElementById('modal-badges');
-            badgesContainer.innerHTML = [
-                ...(product.isNew ? ['<span class="text-[10px] bg-noir-gold text-black font-bold px-2 py-0.5 rounded-md">YENİ LEZZET</span>'] : []),
-                ...product.badges.map(b => `<span class="text-[10px] bg-noir-border text-noir-text px-2 py-0.5 rounded-md">${b}</span>`)
-            ].join('');
-
-            // Hide/Show Milk option based on category
-            const optionsContainer = document.getElementById('modal-options');
-            if (product.category === 'dessert' || product.category === 'bakery') {
-                optionsContainer.classList.add('hidden');
-            } else {
-                optionsContainer.classList.remove('hidden');
-            }
-
-            const modal = document.getElementById('product-modal');
-            const container = modal.querySelector('.modal-container');
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.querySelector('.modal-overlay').classList.add('opacity-100');
-                container.classList.remove('translate-y-full', 'opacity-0');
-            }, 10);
-        }
-
-        function closeProductModal() {
-            const modal = document.getElementById('product-modal');
-            const container = modal.querySelector('.modal-container');
-            
-            container.classList.add('translate-y-full', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        function adjustModalQty(delta) {
-            activeModalQty = Math.max(1, activeModalQty + delta);
-            document.getElementById('modal-qty').textContent = activeModalQty;
-        }
-
-        function addModalItemToCart() {
-            if (!activeModalProduct) return;
-            
-            // Calculate extra options if milk or size added
-            let extraPrice = 0;
-            const sizeActive = document.querySelector('.size-btn.border-noir-gold');
-            if (sizeActive) {
-                extraPrice += parseInt(sizeActive.getAttribute('data-price-add') || '0');
-            }
-
-            addToCart(activeModalProduct, activeModalQty, extraPrice);
-            closeProductModal();
-            showToast('Siparişe Eklendi', `${activeModalProduct.name} sepete eklendi.`);
-        }
-
-        function quickAddToCart(id) {
-            const product = products.find(p => p.id === id);
-            if (product) {
-                addToCart(product, 1, 0);
-                showToast('Eklendi', `${product.name} sepetinize eklendi.`);
-            }
-        }
-
-        // --- CART LOGIC ---
-        function addToCart(product, qty = 1, extraPrice = 0) {
-            const unitPrice = product.price + extraPrice;
-            const existingIndex = cart.findIndex(item => item.id === product.id && item.unitPrice === unitPrice);
-
-            if (existingIndex > -1) {
-                cart[existingIndex].qty += qty;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    unitPrice: unitPrice,
-                    qty: qty,
-                    image: product.image
-                });
-            }
-            updateCartUI();
-        }
-
-        function updateCartQty(index, delta) {
-            cart[index].qty += delta;
-            if (cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
-            updateCartUI();
-            renderCartModalList();
-        }
-
-        function updateCartUI() {
-            const cartBar = document.getElementById('cart-bar');
-            const cartBadge = document.getElementById('cart-badge');
-            const cartTotalPrice = document.getElementById('cart-total-price');
-
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
-
-            if (totalItems > 0) {
+            const cartBar = document.getElementById('cartBar');
+            if (totalCount > 0) {
                 cartBar.classList.remove('hidden');
-                cartBadge.textContent = totalItems;
-                cartTotalPrice.textContent = `₺${totalPrice}`;
+                document.getElementById('cartCountText').innerText = `${totalCount} Adet Ürün Seçildi`;
+                document.getElementById('cartTotalText').innerText = `₺${totalPrice}`;
             } else {
                 cartBar.classList.add('hidden');
             }
         }
 
-        function openCartModal() {
-            renderCartModalList();
-            document.getElementById('cart-table-title').textContent = `Masa ${selectedTable} Sipariş Özeti`;
-            
-            const modal = document.getElementById('cart-modal');
-            const container = modal.querySelector('.modal-container');
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                container.classList.remove('translate-y-full', 'opacity-0');
-            }, 10);
-        }
+        window.sendOrder = async function() {
+            if (Object.keys(cart).length === 0) return;
 
-        function closeCartModal() {
-            const modal = document.getElementById('cart-modal');
-            const container = modal.querySelector('.modal-container');
-            
-            container.classList.add('translate-y-full', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
+            const orderItems = Object.entries(cart).map(([id, qty]) => {
+                const item = products.find(p => p.id === parseInt(id));
+                return { name: item.name, price: item.price, quantity: qty };
+            });
 
-        function renderCartModalList() {
-            const list = document.getElementById('cart-items-list');
-            const grandTotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+            const totalPrice = orderItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
 
-            document.getElementById('cart-subtotal').textContent = `₺${grandTotal}`;
-            document.getElementById('cart-grand-total').textContent = `₺${grandTotal}`;
+            const orderData = {
+                table: tableNumber,
+                type: 'order',
+                items: orderItems,
+                total: totalPrice,
+                time: new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+                status: 'pending'
+            };
 
-            if (cart.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-8 text-noir-muted">
-                        <i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
-                        <p class="text-xs">Sepetinizde ürün bulunmamaktadır.</p>
-                    </div>
-                `;
-                closeCartModal();
-                return;
+            try {
+                await push(ref(db, 'orders'), orderData);
+                alert("Siparişiniz masanıza iletildi! Afiyet olsun.");
+                cart = {};
+                updateCartBar();
+            } catch (error) {
+                alert("Sipariş gönderilirken bir hata oluştu!");
+                console.error(error);
             }
+        }
 
-            list.innerHTML = cart.map((item, index) => `
-                <div class="flex items-center justify-between gap-3 bg-noir-card p-2.5 rounded-xl border border-noir-border">
-                    <img src="${item.image}" alt="" class="w-12 h-12 rounded-lg object-cover">
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
-                        <span class="text-xs text-noir-gold font-semibold">₺${item.unitPrice * item.qty}</span>
-                    </div>
+        window.callWaiter = async function() {
+            const callData = {
+                table: tableNumber,
+                type: 'waiter_call',
+                time: new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+                status: 'pending'
+            };
+            try {
+                await push(ref(db, 'orders'), callData);
+                alert(`Masa ${tableNumber} için garson çağrıldı! Bekleyiniz.`);
+            } catch (error) {
+                alert("Garson çağrılamadı!");
+            }
+        }
 
-                    <div class="flex items-center border border-noir-border rounded-lg bg-noir-bg p-0.5">
-                        <button onclick="updateCartQty(${index}, -1)" class="w-6 h-6 flex items-center justify-center text-noir-muted hover:text-white">
-                            <i data-lucide="minus" class="w-3 h-3"></i>
-                        </button>
-                        <span class="w-6 text-center text-xs font-bold text-white">${item.qty}</span>
-                        <button onclick="updateCartQty(${index}, 1)" class="w-6 h-6 flex items-center justify-center text-noir-muted hover:text-white">
-                            <i data-lucide="plus" class="w-3 h-3"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+        // QR Modal
+        let qrcodeObj = null;
+        window.openQRModal = function() {
+            document.getElementById('qrModal').classList.remove('hidden');
+            generateQRCode();
+        }
+        window.closeQRModal = function() { document.getElementById('qrModal').classList.add('hidden'); }
+        
+        window.generateQRCode = function() {
+            const tableNum = document.getElementById('tableSelect').value;
+            const currentUrl = window.location.href.split('?')[0] + `?table=${tableNum}`;
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            qrcodeObj = new QRCode(qrContainer, {
+                text: currentUrl, width: 160, height: 160, colorDark: "#0F0F0D", colorLight: "#ffffff"
+            });
+        }
+        window.downloadQR = function() {
+            const img = document.querySelector('#qrcode img');
+            if (img && img.src) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = `Noir-Coffee-Masa-${document.getElementById('tableSelect').value}-QR.png`;
+                link.click();
+            }
+        }
 
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
             lucide.createIcons();
-        }
-
-        function submitOrder() {
-            if (cart.length === 0) return;
-            
-            showToast('Sipariş Alındı!', `Masa ${selectedTable} için siparişiniz baristaya iletildi.`);
-            cart = [];
-            updateCartUI();
-            closeCartModal();
-        }
-
-        // --- TABLE SELECTION ---
-        function renderTableGrid() {
-            const grid = document.getElementById('tables-grid');
-            let html = '';
-            for (let i = 1; i <= 12; i++) {
-                const isSelected = i === selectedTable;
-                html += `
-                    <button 
-                        onclick="selectTable(${i})"
-                        class="py-3 rounded-xl border text-xs font-bold transition-all ${
-                            isSelected 
-                            ? 'bg-noir-gold text-black border-noir-gold shadow-md' 
-                            : 'bg-noir-card text-white border-noir-border hover:border-noir-gold/40'
-                        }"
-                    >
-                        Masa ${i}
-                    </button>
-                `;
-            }
-            grid.innerHTML = html;
-        }
-
-        function selectTable(num) {
-            selectedTable = num;
-            updateTableUI();
-            renderTableGrid();
-            closeTableModal();
-            showToast('Masa Güncellendi', `Seçili Masa: Masa ${selectedTable}`);
-        }
-
-        function updateTableUI() {
-            document.getElementById('current-table-text').textContent = `Masa ${selectedTable}`;
-        }
-
-        function openTableModal() {
-            const modal = document.getElementById('table-modal');
-            const container = modal.querySelector('.modal-container');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                container.classList.remove('translate-y-full', 'opacity-0');
-            }, 10);
-        }
-
-        function closeTableModal() {
-            const modal = document.getElementById('table-modal');
-            const container = modal.querySelector('.modal-container');
-            container.classList.add('translate-y-full', 'opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
-        // --- CALL WAITER MODAL ---
-        function openCallWaiterModal() {
-            const modal = document.getElementById('waiter-modal');
-            const container = modal.querySelector('.modal-container');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                container.classList.remove('translate-y-full', 'opacity-0');
-            }, 10);
-        }
-
-        function closeCallWaiterModal() {
-            const modal = document.getElementById('waiter-modal');
-            const container = modal.querySelector('.modal-container');
-            container.classList.add('translate-y-full', 'opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
-        function sendNotification(title, msg) {
-            closeCallWaiterModal();
-            showToast(title, `Masa ${selectedTable}: ${msg}`);
-        }
-
-        // --- TOAST NOTIFICATION ---
-        function showToast(title, msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-title').textContent = title;
-            document.getElementById('toast-msg').textContent = msg;
-
-            toast.classList.remove('-translate-y-10', 'opacity-0', 'pointer-events-none');
-            
-            setTimeout(() => {
-                toast.classList.add('-translate-y-10', 'opacity-0', 'pointer-events-none');
-            }, 3200);
-        }
-
-        // Option Button Toggles in Modal
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('option-btn')) {
-                const parent = e.target.parentElement;
-                parent.querySelectorAll('.option-btn').forEach(btn => {
-                    btn.classList.remove('border-noir-gold', 'bg-noir-gold/10', 'text-noir-gold');
-                    btn.classList.add('border-noir-border', 'bg-noir-card', 'text-noir-muted');
-                });
-                e.target.classList.remove('border-noir-border', 'bg-noir-card', 'text-noir-muted');
-                e.target.classList.add('border-noir-gold', 'bg-noir-gold/10', 'text-noir-gold');
-            }
-
-            if (e.target.classList.contains('size-btn')) {
-                const parent = e.target.parentElement;
-                parent.querySelectorAll('.size-btn').forEach(btn => {
-                    btn.classList.remove('border-noir-gold', 'bg-noir-gold/10', 'text-noir-gold');
-                    btn.classList.add('border-noir-border', 'bg-noir-card', 'text-noir-muted');
-                });
-                e.target.classList.remove('border-noir-border', 'bg-noir-card', 'text-noir-muted');
-                e.target.classList.add('border-noir-gold', 'bg-noir-gold/10', 'text-noir-gold');
-            }
         });
     </script>
 </body>
